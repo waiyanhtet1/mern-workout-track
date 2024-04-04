@@ -35,6 +35,7 @@ const WorkOutForm = () => {
       setError(data.error);
     } else {
       setForm({ title: "", load: "", reps: "" });
+      setError(null);
       dispatch({ type: "CREATE_WORKOUT", payload: data });
     }
   };
