@@ -3,6 +3,7 @@ import { useWorkoutContext } from "../hooks/useWorkoutContext";
 
 const WorkOutForm = () => {
   const { dispatch } = useWorkoutContext();
+  const [emptyFields, setEmptyFields] = useState([]);
 
   const [form, setForm] = useState({
     title: "",
@@ -33,6 +34,7 @@ const WorkOutForm = () => {
 
     if (!response.ok) {
       setError(data.error);
+      setEmptyFields(data.emptyFields);
     } else {
       setForm({ title: "", load: "", reps: "" });
       setError(null);
@@ -46,22 +48,25 @@ const WorkOutForm = () => {
       <input
         type="text"
         name="title"
+        className={emptyFields.includes("title") ? "error" : ""}
         value={form.title}
         onChange={onChangeHandler}
       />
 
-      <label htmlFor="title">Load (Kg):</label>
+      <label htmlFor="load">Load (Kg):</label>
       <input
         type="text"
         name="load"
+        className={emptyFields.includes("load") ? "error" : ""}
         value={form.load}
         onChange={onChangeHandler}
       />
 
-      <label htmlFor="title">Number of Reps:</label>
+      <label htmlFor="reps">Number of Reps:</label>
       <input
         type="text"
         name="reps"
+        className={emptyFields.includes("reps") ? "error" : ""}
         value={form.reps}
         onChange={onChangeHandler}
       />

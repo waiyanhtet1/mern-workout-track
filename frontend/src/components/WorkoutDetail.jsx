@@ -7,8 +7,7 @@ const WorkoutDetail = ({ workout }) => {
     const response = await fetch(`/api/workouts/${workout._id}`, {
       method: "DELETE",
     });
-
-    const result = await response.json();
+    await response.json();
     if (response.ok) dispatch({ type: "DELETE_WORKOUT", payload: workout._id });
   };
 
