@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { json } from "react-router-dom";
+import { useWorkoutContext } from "../hooks/useWorkoutContext";
 
 const WorkOutForm = () => {
+  const { dispatch } = useWorkoutContext();
+
   const [form, setForm] = useState({
     title: "",
     load: "",
@@ -32,8 +34,8 @@ const WorkOutForm = () => {
     if (!response.ok) {
       setError(data.error);
     } else {
-      setForm({});
-      console.log("Form Submitted!", data);
+      setForm({ title: "", load: "", reps: "" });
+      dispatch({ type: "CREATE_WORKOUT", payload: data });
     }
   };
 
@@ -63,7 +65,7 @@ const WorkOutForm = () => {
         onChange={onChangeHandler}
       />
 
-      <div className="error">{error}</div>
+      {error && <div className="error">{error}</div>}
       <button type="submit">Create</button>
     </form>
   );
