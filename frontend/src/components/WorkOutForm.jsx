@@ -67,7 +67,7 @@ const WorkOutForm = () => {
           <input
             type="text"
             name="title"
-            className={emptyFields.includes("title") ? "error" : ""}
+            className={emptyFields?.includes("title") ? "error" : ""}
             value={form.title}
             onChange={onChangeHandler}
           />
@@ -76,7 +76,7 @@ const WorkOutForm = () => {
           <input
             type="text"
             name="load"
-            className={emptyFields.includes("load") ? "error" : ""}
+            className={emptyFields?.includes("load") ? "error" : ""}
             value={form.load}
             onChange={onChangeHandler}
           />
@@ -85,7 +85,7 @@ const WorkOutForm = () => {
           <input
             type="text"
             name="reps"
-            className={emptyFields.includes("reps") ? "error" : ""}
+            className={emptyFields?.includes("reps") ? "error" : ""}
             value={form.reps}
             onChange={onChangeHandler}
           />
