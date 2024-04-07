@@ -34,10 +34,19 @@ header a {
 
 /* homepage */
 .home {
-  display: grid;
+  /* display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 100px;
+  grid-column: 1 / span 2; */
+  display: flex;
+  justify-content: space-between;
+  gap: 100px;
 }
+
+.workouts {
+  flex: 2;
+}
+
 .workout-details {
   background: #fff;
   border-radius: 4px;
@@ -68,6 +77,21 @@ header a {
 }
 
 /* new workout form */
+
+form {
+  flex: 1;
+  position: sticky;
+  bottom: 0;
+  padding: 10px;
+}
+
+.form_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+
 label,
 input {
   display: block;
@@ -130,4 +154,15 @@ form.login {
   padding: 20px;
   background: #fff;
   border-radius: 4px;
+}
+
+@media (max-width: 800px) {
+  .home {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  form {
+    background-color: #fff;
+  }
 }
