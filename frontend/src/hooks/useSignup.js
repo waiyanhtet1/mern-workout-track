@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
+import { baseUrl } from "../utils/baseUrl";
 
 export const useSignup = (type) => {
   const [error, setError] = useState(null);
@@ -11,7 +12,7 @@ export const useSignup = (type) => {
     setError(null);
 
     const response = await fetch(
-      `/api/user/${type === "login" ? "login" : "signup"}`,
+      `${baseUrl}/api/user/${type === "login" ? "login" : "signup"}`,
       {
         method: "POST",
         headers: {
