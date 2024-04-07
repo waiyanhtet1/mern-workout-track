@@ -1,3 +1,4 @@
+import { useState } from "react";
 import config from "../config";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useWorkoutContext } from "../hooks/useWorkoutContext";
@@ -6,9 +7,15 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 const WorkoutDetail = ({ workout }) => {
   const { dispatch } = useWorkoutContext();
   const { user } = useAuthContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onDeleteHandler = async () => {
-    if (!user) return;
+    setIsLoading(true);
+
+    if (!user) {
+      setIsLoading(false);
+      return;
+    }
 
     const response = await fetch(
       `${config.SERVER_URI}/api/workouts/${workout._id}`,
@@ -21,7 +28,10 @@ const WorkoutDetail = ({ workout }) => {
       }
     );
     await response.json();
-    if (response.ok) dispatch({ type: "DELETE_WORKOUT", payload: workout._id });
+    if (response.ok) {
+      setIsLoading(false);
+      dispatch({ type: "DELETE_WORKOUT", payload: workout._id });
+    }
   };
 
   return (
@@ -38,9 +48,13 @@ const WorkoutDetail = ({ workout }) => {
       <p>
         {formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}
       </p>
-      <span className="material-symbols-outlined" onClick={onDeleteHandler}>
-        delete
-      </span>
+      {isLoading ? (
+        <span className="loader" />
+      ) : (
+        <span className="material-symbols-outlined" onClick={onDeleteHandler}>
+          delete
+        </span>
+      )}
     </div>
   );
 };

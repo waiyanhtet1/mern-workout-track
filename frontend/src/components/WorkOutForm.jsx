@@ -8,6 +8,7 @@ const WorkOutForm = () => {
   const [emptyFields, setEmptyFields] = useState([]);
   const { user } = useAuthContext();
   const [isShow, setIsShow] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [form, setForm] = useState({
     title: "",
@@ -25,6 +26,7 @@ const WorkOutForm = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (!user) {
       setError("You must login first");
@@ -33,7 +35,6 @@ const WorkOutForm = () => {
 
     const response = await fetch(`${config.SERVER_URI}/api/workouts`, {
       method: "POST",
-
       body: JSON.stringify(form),
       headers: {
         "Content-Type": "application/json",
@@ -45,11 +46,13 @@ const WorkOutForm = () => {
 
     if (!response.ok) {
       setError(data.error);
+      setIsLoading(false);
       setEmptyFields(data.emptyFields);
     } else {
       setForm({ title: "", load: "", reps: "" });
       setError(null);
       setIsShow(false);
+      setIsLoading(false);
       dispatch({ type: "CREATE_WORKOUT", payload: data });
     }
   };
@@ -93,7 +96,11 @@ const WorkOutForm = () => {
           />
 
           {error && <div className="error">{error}</div>}
-          <button type="submit">Create</button>
+          {isLoading ? (
+            <span className="loader" />
+          ) : (
+            <button type="submit">Create</button>
+          )}
         </>
       )}
     </form>
